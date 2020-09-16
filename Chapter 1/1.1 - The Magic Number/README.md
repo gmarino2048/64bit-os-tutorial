@@ -15,6 +15,23 @@ that we only have 512 bytes to store all our bootloader
 code! Obviously, a modern bootloader is more complex
 than that, but we'll get to that later.
 
+## Building
+
+Before we get started, make sure you can build the
+`boot.asm` example. You should be able to do so using
+the command:
+
+```sh
+nasm boot.asm
+```
+
+Next, you should be able to load the example into
+QEMU and run it with the following command:
+
+```sh
+qemu-system-x86_64 -drive format=raw,file=boot.asm
+```
+
 ## First Boot
 
 For now, our bootloader will be the simplest program
