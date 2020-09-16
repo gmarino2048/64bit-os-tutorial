@@ -8,6 +8,8 @@
 ; but the BIOS doesn't load the boot sector at instruction 0. Instead,
 ; it's loaded to 0x7C00. NASM doesn't know this though, so we need to
 ; tell it where the program origin is with the 'org' metacommand.
+; This will offset all of our labels by 0x7C00 so our program jumps to
+; the right place.
 [org 0x7C00]
 
 ; All x86-type chips start in 16-bit "real mode", which
