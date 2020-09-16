@@ -32,6 +32,12 @@ QEMU and run it with the following command:
 qemu-system-x86_64 -drive format=raw,file=boot
 ```
 
+It won't do much to begin with, but that's alright!
+As long as QEMU doesn't crash and the screen isn't
+flickering, then the bootloader is working as
+expected. When you finish writing yours, it should
+look the same.
+
 ## First Boot
 
 For now, our bootloader will be the simplest program
