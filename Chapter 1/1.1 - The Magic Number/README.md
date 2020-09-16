@@ -42,12 +42,49 @@ here: `$` and `$$`.
 In NASM, `$` is replaced with the address of the
 **current instruction** at assemble time. Similarly,
 `$$` is replaced with the address of the **previous
-instruction**. This means that to make an infinite
-loop, we can just use the simple instruction
+instruction**.
+
+Before you move on, try implementing this simple boot
+sector yourself. See if you can get it working with the
+magic number too.
+
+This means that to make an infinite loop, we can just
+use the simple instruction
 
 ```asm
 jmp $
 ```
 
 (or jump to current instruction) as our only
-instruction.
+instruction. Then, we'll need to pad the rest of our
+boot sector and write the magic number.
+
+## Raw Data
+
+In order to get the magic number working, we'll need
+to be able to write raw data directly to the file.
+There are a few functions in NASM to do this:
+
+* `db` (Define Byte)
+* `dw` (Define Word)
+* `dd` (Define Doubleword)
+* `dq` (Define Quadword)
+
+These functions will write raw data with length 8,
+16, 32, and 64 bits, respectively. (This is also
+1, 2, 4, and 8 bytes). Since the magic number is 16
+bits long, we'll use `dw` to define it:
+
+```asm
+dw 0xAA55
+```
+
+Now, we'll need to pad the rest of the file with zero
+bytes to make sure that our magic number is the last two
+bytes of the boot sector. You may find the 
+[times](https://nasm.us/doc/nasmdoc3.html) command 
+especially useful for this. If you get stuck, there's a
+detailed explanation in the source file, so just look
+there!
+
+Good Luck!
