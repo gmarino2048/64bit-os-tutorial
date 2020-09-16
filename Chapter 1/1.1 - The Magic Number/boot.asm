@@ -17,7 +17,8 @@ jmp $                   ; Jump to the current instruction, aka infinite loop
 
 ; We use the 'times' command to repeat the 'db' or "define byte" command
 ; to pad the rest. Remeber, we will use the '$' and '$$' commands to 
-; determine how much space is left sin
+; determine how much space is left between the final instruction and
+; the magic number.
 
 times 510 - ($ - $$) db 0x00
 
