@@ -13,7 +13,7 @@ end of the boot sector. A "sector" is defined by the
 BIOS as the first 512 bytes of each drive. This means
 that we only have 512 bytes to store all our bootloader
 code! Obviously, a modern bootloader is more complex
-than that, but we'll firgure that out later.
+than that, but we'll figure that out later.
 
 ## Building
 
