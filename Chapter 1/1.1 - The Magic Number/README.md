@@ -29,7 +29,7 @@ Next, you should be able to load the example into
 QEMU and run it with the following command:
 
 ```sh
-qemu-system-x86_64 -drive format=raw,file=boot.asm
+qemu-system-x86_64 -drive format=raw,file=boot
 ```
 
 ## First Boot
