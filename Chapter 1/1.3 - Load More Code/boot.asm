@@ -1,5 +1,5 @@
 ;
-; Hello, BIOS
+; Load More Code
 ;
 ; boot.asm
 ;
