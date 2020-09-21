@@ -10,6 +10,15 @@ do BIOS updates). This program is responsible for the Power-On
 Self Test (POST) and makes sure you have a correct and operational
 system configuration.
 
+One more thing you need to know: the BIOS doesn't load the boot
+sector at address 0. That's reserved for other things to use. Instead,
+our code gets loaded at address `0x7C00`. This wasn't an issue for our
+simple example since we weren't doing complex jumps, but if we're not
+careful everything will get messed up now that we're actually trying
+to do stuff. Luckily, NASM makes this easy for us! We just need to add
+`[org 0x7C00]` to the beginning of our file to tell NASM that's where
+our code is loaded.
+
 ## Bios Utilities
 
 When the computer first starts, only the first sector (512 bytes) has
