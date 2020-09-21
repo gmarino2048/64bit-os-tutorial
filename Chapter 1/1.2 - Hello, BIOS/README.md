@@ -73,7 +73,7 @@ character to the console, and jump to the end once we reach the terminating
 null character. This would be a good time to look at the `print.asm` file and take
 a look at the source code.
 
-## Another Thing
+## Including External Files
 
 We can use the `%include` directive in NASM to copy code files verbatim into
 our program. We use this pretty extensively to make sure that our assembly files
