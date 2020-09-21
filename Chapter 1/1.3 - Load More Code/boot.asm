@@ -10,6 +10,18 @@
 ; 16-bit Mode
 [bits 16]
 
+; Initialize the base pointer and the stack pointer
+; The initial values should be fine for what we've done so far,
+; but it's better to do it explicitly
+mov bp, 0x0500
+mov sp, bp
+
+; Before we do anything else, we want to save the ID of the boot
+; drive, which the BIOS stores in register dl. We can offload this
+; to a specific location in memory
+mov byte[boot_drive], dl
+
+
 ; Print Message
 mov bx, msg_hello_world
 call print_bios
@@ -32,8 +44,21 @@ jmp $               ; Infinite loop
 ; String Message
 msg_hello_world:                db `\r\nHello World, from the BIOS!\r\n`, 0
 
+; Boot drive storage
+boot_drive:                     db 0x00
+
 ; Pad boot sector for magic number
 times 510 - ($ - $$) db 0x00
 
 ; Magic number
 dw 0xAA55
+
+boot_sector_end:
+
+bootsector_extended:
+
+loaded_msg db `\r\nNow reading from the next sector!`, 0
+
+; Fill with zeros to the end of the sector
+times 512 - ($ - bootsector_extended) db 0x00
+load_sector_end:

@@ -4,3 +4,5 @@
 ; load.asm
 ;
 
+; Define load_sectors
+;   sector start point 
