@@ -14,12 +14,18 @@
 mov bx, msg_hello_world
 call print_bios
 
+; Test print_hex
+mov bx, 0xFACE
+call print_hex
+
 ; Infinite Loop
 bootsector_hold:
 jmp $               ; Infinite loop
 
 ; INCLUDES
 %include "print.asm"
+%include "print_hex.asm"
+%include "load.asm"
 
 ; DATA STORAGE AREA
 
