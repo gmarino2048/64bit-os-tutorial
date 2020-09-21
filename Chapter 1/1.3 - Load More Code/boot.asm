@@ -43,6 +43,10 @@ mov dx, 0x7E00
 ; Now we're fine to load the new sectors
 call load_bios
 
+; We should now be able to read the loaded string
+mov bx, loaded_msg
+call print_bios
+
 ; Infinite Loop
 bootsector_hold:
 jmp $               ; Infinite loop
@@ -68,7 +72,7 @@ dw 0xAA55
 
 bootsector_extended:
 
-loaded_msg db `\r\nNow reading from the next sector!`, 0
+loaded_msg:                     db `\r\nNow reading from the next sector!`, 0
 
 ; Fill with zeros to the end of the sector
 times 512 - ($ - bootsector_extended) db 0x00
