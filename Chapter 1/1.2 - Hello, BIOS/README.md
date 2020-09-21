@@ -73,6 +73,13 @@ character to the console, and jump to the end once we reach the terminating
 null character. This would be a good time to look at the `print.asm` file and take
 a look at the source code.
 
+## Another Thing
+
+We can use the `%include` directive in NASM to copy code files verbatim into
+our program. We use this pretty extensively to make sure that our assembly files
+don't get too jumbled up. This is why we included `print.asm` in the source, but
+only need to assemble `boot.asm`, it's already been included!
+
 ## Building
 
 Building this example is the same as building the previous step. To
