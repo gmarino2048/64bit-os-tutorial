@@ -21,14 +21,27 @@ mov sp, bp
 ; to a specific location in memory
 mov byte[boot_drive], dl
 
-
 ; Print Message
 mov bx, msg_hello_world
 call print_bios
 
-; Test print_hex
-mov bx, 0xFACE
-call print_hex
+; Load the next sector
+
+; The first sector's already been loaded, so we start with the second sector
+; of the drive. Note: Only bl will be used
+mov bx, 0x0002
+
+; We only want to load one sector from the disk for now. This will
+; be higher later. Note: Only cl will be used
+mov cx, 0x0001
+
+; Finally, we want to store the new sector immediately after the first
+; loaded sector, at adress 0x7E00. This will help a lot with jumping between
+; different sectors of the bootloader.
+mov dx, 0x7E00
+
+; Now we're fine to load the new sectors
+call load_bios
 
 ; Infinite Loop
 bootsector_hold:
@@ -53,12 +66,10 @@ times 510 - ($ - $$) db 0x00
 ; Magic number
 dw 0xAA55
 
-boot_sector_end:
-
 bootsector_extended:
 
 loaded_msg db `\r\nNow reading from the next sector!`, 0
 
 ; Fill with zeros to the end of the sector
 times 512 - ($ - bootsector_extended) db 0x00
-load_sector_end:
+bu:

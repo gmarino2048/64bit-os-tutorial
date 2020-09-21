@@ -6,9 +6,9 @@
 
 [bits 16]
 
-; Define Function print_hex
+; Define Function print_hex_bios
 ; Input in bx
-print_hex:
+print_hex_bios:
     ; Save state
     push ax
     push bx
@@ -28,10 +28,10 @@ print_hex:
     mov cx, 4
 
     ; Begin loop
-    print_hex_loop:
+    print_hex_bios_loop:
         ; If cx==0 goto end
         cmp cx, 0
-        je print_hex_end
+        je print_hex_bios_end
 
         ; Save bx again
         push bx
@@ -41,7 +41,7 @@ print_hex:
 
         ; Check to see if ge 10
         cmp bx, 10
-        jge print_hex_alpha
+        jge print_hex_bios_alpha
 
             ; Byte in bx now < 10
             ; Set the zero char in al, add bl
@@ -49,9 +49,9 @@ print_hex:
             add al, bl
 
             ; Jump to end of loop
-            jmp print_hex_loop_end
+            jmp print_hex_bios_loop_end
 
-        print_hex_alpha:
+        print_hex_bios_alpha:
             
             ; Bit is now greater than or equal to 10
             ; Subtract 10 from bl to get add amount
@@ -62,7 +62,7 @@ print_hex:
             add al, bl
 
 
-        print_hex_loop_end:
+        print_hex_bios_loop_end:
 
         ; Print character
         int 0x10
@@ -76,9 +76,9 @@ print_hex:
         dec cx
 
         ; Jump to beginning of loop
-        jmp print_hex_loop
+        jmp print_hex_bios_loop
 
-print_hex_end:
+print_hex_bios_end:
     ; Restore state
     pop cx
     pop bx
