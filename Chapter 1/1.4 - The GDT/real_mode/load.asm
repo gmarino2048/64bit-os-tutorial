@@ -17,8 +17,7 @@ load_bios:
     push cx
     push dx
 
-    ; Save the number of sectors to read again, since we'll need
-    ; to check against this later.
+    ; Save the number of registers to load for later
     push cx
 
     ; For the ATA Read bios utility, the value of ah must be 0x02
@@ -37,30 +36,20 @@ load_bios:
     ; in dx
     mov bx, dx
 
-    ; Next are the cylinder and cylinder head to read from. You
-    ; would need to change these if reading from an actual drive, but with
-    ; QEMU they're just 0
     mov ch, 0x00        ; Cylinder goes in ch
     mov dh, 0x00        ; Cylinder head goes in dh
 
-    ; Finally, we want to load the drive to read from in dl. Remember,
-    ; we stored this in the boot_drive label
+    ; Store boot drive in dl
     mov dl, byte[boot_drive]
 
     ; Perform the BIOS disk read
-    ; Use an interrupt to trigger the bios function
     int 0x13
 
-    ; Now comes a slightly weird part. If there's a read error, then the
-    ; BIOS function will set the 'carry' bit in the 8086 special register.
-    ; We can use the 'jc' command to 'jump if the carry bit is set'. We'll
-    ; jump to the error handling function defined below
+    ; Check read error
     jc bios_disk_error
 
-    ; Now, sometimes the BIOS will not read the requested amount, but
-    ; will return without error. We need to check the actual read amount
-    ; (stored in al). Remember that we saved this twice earlier, so we'll
-    ; pop it into bx for comparison
+    ; Pop number of sectors to read
+    ; Compare with sectors actually read
     pop bx
     cmp al, bl
     jne bios_disk_error
