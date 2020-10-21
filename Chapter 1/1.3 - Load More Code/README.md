@@ -42,6 +42,35 @@ disk head. However, be warned: **the numbering of sectors begins at 1, and the
 first sector of the 0th cylinder is the boot sector**. This means that if we
 want to load more sectors, we'll need to start with sector 2 of cylinder 0.
 
+## Using the ATA Utility
+
+The ATA Utility allows us to use an interrupt to make a call down to the BIOS
+so that we can load additional sectors without writing our own drivers. This
+not only saves us time, but also helps us to consolidate our initialization
+code to a single sector. The ATA Utility actually uses all four of the
+Real-Mode registers (`ax`, `bx`, `cx`, and `dx`). Each register's usage is
+described below:
+
+* `ah`: `0x02`, the code for the BIOS read utility
+* `al`: the number of sectors to read from the disk. Must be less than 128.
+* `bx`: The destination of the loaded segments in RAM. This value is offset
+by segment register `es`
+* `ch`: The cylinder number. This will most likely be cylinder 0.
+* `cl`: Sector number. Remember that the first sector is 1 (the boot sector),
+so the next sector we should read from is 2.
+* `dh`: The cylinder head. Unless you really know what you're doing this
+should probably be 0.
+* `dl`: The disk to read from. For the boot disk this is `0x80`
+
+To execute the read, we must interrupt the CPU with `int 0x13`. Once this
+happens, the number of sectors that were successfully read will be stored
+in `al`. If there was an error, the `carry` bit in the 8086 special register
+will be set, and the error code will be stored in `ah`. We can then notice
+and react to any of these potential errors accordingly.
+
+For a more in-depth description of the BIOS ATA utility, see the entry from
+the OSDev Wiki [here](https://web.archive.org/web/20201021171813/https://wiki.osdev.org/ATA_in_x86_RealMode_%28BIOS%29).
+
 ## Building
 
 Building this example is the same as building the previous step. To
