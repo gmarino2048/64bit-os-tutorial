@@ -52,9 +52,9 @@ bootsector_hold:
 jmp $               ; Infinite loop
 
 ; INCLUDES
-%include "print.asm"
-%include "print_hex.asm"
-%include "load.asm"
+%include "real_mode/print.asm"
+%include "real_mode/print_hex.asm"
+%include "real_mode/load.asm"
 
 ; DATA STORAGE AREA
 
