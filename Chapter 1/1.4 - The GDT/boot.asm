@@ -55,6 +55,7 @@ jmp $               ; Infinite loop
 %include "real_mode/print.asm"
 %include "real_mode/print_hex.asm"
 %include "real_mode/load.asm"
+%include "real_mode/gdt.asm"
 
 ; DATA STORAGE AREA
 
