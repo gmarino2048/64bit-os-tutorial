@@ -73,6 +73,7 @@ gdt_32_end:
 
 ; Define the gdt descriptor
 ; This data structure gives cpu length and start address of gdt
+; We will feed this structure to the CPU in order to set the protected mode GDT
 gdt_32_descriptor:
     dw gdt_32_end - gdt_32_start - 1        ; Size of GDT, one byte less than true size
     dd gdt_32_start                         ; Start of the 32 bit gdt
