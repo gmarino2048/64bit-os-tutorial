@@ -1,5 +1,5 @@
 ;
-; Load More Code
+; The GDT
 ;
 ; load.asm
 ;
