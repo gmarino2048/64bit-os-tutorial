@@ -88,7 +88,7 @@ the `LGDT` command used to load the GDT.
 ## "Flat" Configuration
 
 While the GDT is a valid option for access control, paging will allow us to use the
-concept of "Virtual Memory" (which we'll review later) and iis better or equivalent
+concept of "Virtual Memory" (which we'll review later) and its better or equivalent
 to this segmentation control in almost every way. However, due to backward-compatibility
 reasons, we still need to define a valid GDT for our processor before enabling paging.
 
