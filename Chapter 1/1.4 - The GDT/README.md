@@ -44,6 +44,15 @@ as well including:
 * Code and Data configurations
 * Memory block granularity
 * Stack Growth Direction
+
+## Handling Improper Access
+
+How exactly does the CPU help with memory access though? The answer lies in system
+interrupts. If a process running in ring 3 attempts to access memory in tiers 0-2,
+then the CPU will detect a descrepency in the protection levels and throw an
+interrupt which can then be handled by the Operating System. (In most cases, the
+offending process is killed.)
+
 ## Building
 
 Building this example is the same as building the previous step. To
