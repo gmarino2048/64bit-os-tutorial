@@ -53,6 +53,35 @@ then the CPU will detect a descrepency in the protection levels and throw an
 interrupt which can then be handled by the Operating System. (In most cases, the
 offending process is killed.)
 
+## GDT Structure
+
+Each entry in the GDT is 64 bits wide. The breakdown of each component is described
+in the following list and in the `gdt.asm` file.
+
+* (0-15) Segment Base (bits 0-15)
+* (16-31) Segment Limit (bits 0-15)
+* (32-39) Segment Base (bits 16-23)
+* (40-43) 1st flags: Present (1 bit), Protection (2 bits), and Descriptor (1 bit)
+* (44-47) Type Flags: Code(1 bit), Expand Down (1 bit), Writeable (1 bit), Accessed (1 bit)
+* (48-51) 2nd flags: Granularity (1 bit), 32-bit default (1 bit), 64-bit segment (1 bit), AVL (1 bit)
+* (52-55) Segment Limit (bits 16-19)
+* (56-63) Segment Base (bits 24-31)
+
+Note that the segment limit is 20 bits instead of 32. This is where the "Granularity"
+bit comes in handy. If "Granularity" is `0`, then the segment limit is interpreted as
+individual bits for a maximum segment size of 2^20 bits. However, if "Granularity"
+is set to `1`, then the limit is interpreted in 4096-bit pages, meaning that the max
+size of a gdt segment is 2^32 bits, or the full 4GB of addressable memory.
+
+One additional component of the GDT which needs to be mentioned is the "Null" entry.
+The CPU requires that the first entry of the GDT is all 0's, or a 64-bit value of 0.
+This was done as an error-checking measure to ensure that the GDT is correct, as
+setting a GDT to the wrong value could have potentially catastrophic results.
+
+Finally, the GDT has a subcomponent known as the "GDT Descriptor". This is a smaller
+data structure which contains the start and end addresses of the GDT. The GDT descriptor
+is what the CPU actually uses to load the GDT, and its address is the one passed into
+the `LGDT` command used to load the GDT.
 ## Building
 
 Building this example is the same as building the previous step. To
