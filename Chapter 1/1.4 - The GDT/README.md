@@ -14,7 +14,9 @@ with **paging** in the 64-bit successor.
 
 While paging is generally seen as a much better alternative, 32-bit
 applications still rely on global and local descriptor tables to
-provide access control.
+provide access control. To read more about the GDT, you can refer
+to the entry in the OSDev Wiki
+[here](https://web.archive.org/web/20200806145801/https://wiki.osdev.org/Global_Descriptor_Table).
 
 ## Access Control: Segmentation vs. Paging
 
@@ -82,6 +84,30 @@ Finally, the GDT has a subcomponent known as the "GDT Descriptor". This is a sma
 data structure which contains the start and end addresses of the GDT. The GDT descriptor
 is what the CPU actually uses to load the GDT, and its address is the one passed into
 the `LGDT` command used to load the GDT.
+
+## "Flat" Configuration
+
+While the GDT is a valid option for access control, paging will allow us to use the
+concept of "Virtual Memory" (which we'll review later) and iis better or equivalent
+to this segmentation control in almost every way. However, due to backward-compatibility
+reasons, we still need to define a valid GDT for our processor before enabling paging.
+
+To avoid conflicting access control schemes, we want the GDT to allow us to read, write,
+and execute data at every single memory address. This means that we won't have to worry
+about potentially violating GDT rules when setting up paging. Additionally, all memory
+should be defined in Ring 0 to allow unfettered access to the CPU hardware. This configuration
+is generally known as the "Flat" configuration, as it is the simplest and least restrictive
+GDT configuration possible.
+
+We'll be using the flat configuration for our setup since we want to enable paging later.
+The flat configuration requires two entries in the GDT in addition to the null descriptor:
+one for code and one for data. The configuration options are slightly different for each,
+and we need to use both in order to get full read, write, and execute permissions on all
+addresses. To see an example of the flat configuration, see the `real_mode/gdt.asm` file.
+
+Once we have the flat mode configuration ready to go, we'll be able to elevate our
+processor to 32-bit mode.
+
 ## Building
 
 Building this example is the same as building the previous step. To
