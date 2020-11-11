@@ -37,6 +37,17 @@ interrupts yet as we need to have our interrupt handlers defined before doing so
 
 ## Loading the GDT
 
+To load the GDT into our CPU we need another data structure. This structure points
+to the start of the GDT and contains the entire length of the GDT. For an
+implementation of this structure, please see the `gdt.asm` file. This data
+structure is the one we will pass to the LGDT command. The CPU will take care of
+the rest.
+
+> NOTE: If your GDT is incorrectly formatted, your CPU will restart
+
+To load the GDT, we pass a pointer to our secondary data structure to the `lgdt`
+command. See the `elevate.asm` file for an example.
+
 ## Setting the control Bit
 
 ## Long jump and pipeline clearing
