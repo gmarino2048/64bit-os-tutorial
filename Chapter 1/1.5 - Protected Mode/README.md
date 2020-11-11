@@ -35,11 +35,36 @@ and stands for "set interrupt bit". To prevent our CPU from going wild and
 resetting itself, we need to use the clear interrupt command. We will not restore
 interrupts yet as we need to have our interrupt handlers defined before doing so.
 
+## Loading the GDT
+
+## Setting the control Bit
+
 ## Long jump and pipeline clearing
 
-## 32-bit registers
+Up until this point, we have been using 16-bit instructions in our processor.
+However, these instructions are largely incompatible with the 32-bit instructions
+we'll be using after we elevate our processor. Even worse, the x86 processor works
+using a pipeline, meaning that there may still be remnants of those 16-bit
+instructions in our CPU.
 
-## 32-bit segmentation
+What we need is a way to flush these 16-bit instructions from our CPU so that
+they don't cause problems with the incoming 32-bit instructions. We can do this
+with a **long jump**. A long jump is usually intended to jump across segments,
+but can also be used to jump to within the same segment. A long jump is a specific
+instruction with the format:
+
+```asm
+jmp segment:address
+```
+
+Where `segment` is a pointer to the entry in the GDT which we want to govern the
+jump (we only have two, so we'll use the data segment for this one). The
+`address` component is the address to jump to starting from the base of our
+segment. Since our base for both segments is `0`, we can assume the addresses
+are the same as we've been using. Just performing this kind of jump is enough
+to clear the pipeline.
+
+## 32-bit Registers and Segmentation
 
 ## VGA Text Memory
 
