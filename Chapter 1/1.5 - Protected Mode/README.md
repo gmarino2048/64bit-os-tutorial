@@ -26,7 +26,14 @@ to enter 32-bit mode, we will probably only ever use the 32 bit registers.
 
 ## Disabling interrupts
 
-
+Setting the GDT in the CPU causes the CPU to emit a large amount of interrupts,
+and since we haven't set any interrupt handlers, we'll need to prevent the CPU
+from reacting to these interrupts somehow. We can do this with two x86 commands,
+`cli` and `sti`. The `cli` command causes the CPU to ignore all interrupts, and
+stands for "clear interrupt bit". On the other hand,`sti` restores interrupts,
+and stands for "set interrupt bit". To prevent our CPU from going wild and
+resetting itself, we need to use the clear interrupt command. We will not restore
+interrupts yet as we need to have our interrupt handlers defined before doing so.
 
 ## Long jump and pipeline clearing
 
