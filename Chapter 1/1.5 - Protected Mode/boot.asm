@@ -71,8 +71,15 @@ times 510 - ($ - $$) db 0x00
 ; Magic number
 dw 0xAA55
 
+
+; BEGIN SECOND SECTOR. THIS ONE CONTAINS 32-BIT CODE ONLY
+
 bootsector_extended:
 begin_protected:
+
+; Test VGA-style print function
+mov esi, protected_alert
+call print_protected
 
 jmp $       ; Infinite Loop
 
@@ -80,7 +87,7 @@ jmp $       ; Infinite Loop
 %include "protected_mode/clear.asm"
 %include "protected_mode/print.asm"
 
-loaded_msg:                     db `Now in 32-bit protected mode`, 0
+protected_alert:                 db `Now in 32-bit protected mode`, 0
 
 ; Fill with zeros to the end of the sector
 times 512 - ($ - bootsector_extended) db 0x00
