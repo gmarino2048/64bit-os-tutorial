@@ -51,4 +51,5 @@ elevate_bios:
     mov ebp, 0x90000
     mov esp, ebp
 
+    ; Go to the second sector with 32-bit code
     jmp begin_protected
