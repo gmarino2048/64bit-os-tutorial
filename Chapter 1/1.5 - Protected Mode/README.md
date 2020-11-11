@@ -85,6 +85,26 @@ to clear the pipeline.
 
 ## 32-bit Registers and Segmentation
 
+Once we've been elevated to 32-bit mode. We have access to all of the extended
+registers which include:
+
+* `eax`
+* `ebx`
+* `ecx`
+* `edx`
+* `esi`
+* `edi`
+
+As you may have guessed, the "e" at the beginning of each stands for "extended".
+The "e" is used to denote the 32-bit versions of the registers. We still have
+access to all of our 16 bit registers as well.
+
+In addition, all segmentation is now done through pointers to sections of the
+global and local descriptor tables (just like we did in the long jump step).
+This gives us a much greater level of control over our memory, at the cost of
+a somewhat convoluted setup process. If you want to make your OS 32-bit, then
+stop here, as everything beyond this point deals with setting up 64-bit mode.
+
 ## VGA Text Memory
 
 ## Building
