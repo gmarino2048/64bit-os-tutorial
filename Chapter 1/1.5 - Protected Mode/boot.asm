@@ -1,5 +1,5 @@
 ;
-; Load More Code
+; Protected Mode
 ;
 ; boot.asm
 ;

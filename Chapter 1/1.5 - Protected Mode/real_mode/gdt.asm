@@ -1,5 +1,5 @@
 ;
-; The GDT
+; Protected Mode
 ;
 ; gdt.asm
 ;
