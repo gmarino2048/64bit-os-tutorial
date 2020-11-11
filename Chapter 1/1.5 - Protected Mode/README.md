@@ -107,6 +107,19 @@ stop here, as everything beyond this point deals with setting up 64-bit mode.
 
 ## VGA Text Memory
 
+VGA is one of the oldest video standards in existence, and also the simplest. Most
+computers have a VGA compatible mode, and VGA itself has two distinct modes: text
+mode and graphic mode. Since this tutorial is supposed to be simple, we will only
+deal with text mode.
+
+Text mode is controlled by a segment of memory starting at physical address
+`0x000B8000`. Text mode gives us a window that can support 80 characters horizontally
+and 25 characters vertically for a total of 2,000 characters. Each character is defined
+by 2 bytes (the high byte is for style, and the low byte is for the character itself)
+for a total of 4KB of memory. Simply writing the value to the memory area will change
+the value on the display. To see what this looks like in practice, see the `clear.asm`
+and `print.asm` files in the `protected_mode` folder.
+
 ## Building
 
 Building this example is the same as building the previous step. To
