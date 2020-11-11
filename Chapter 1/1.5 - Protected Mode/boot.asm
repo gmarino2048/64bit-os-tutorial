@@ -73,7 +73,11 @@ dw 0xAA55
 
 bootsector_extended:
 
-loaded_msg:                     db `\r\nNow reading from the next sector!`, 0
+; INCLUDE protected-mode functions
+%include "protected_mode/clear.asm"
+%include "protected_mode/print.asm"
+
+loaded_msg:                     db `Now `, 0
 
 ; Fill with zeros to the end of the sector
 times 512 - ($ - bootsector_extended) db 0x00
