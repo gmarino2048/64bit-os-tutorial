@@ -43,9 +43,8 @@ mov dx, 0x7E00
 ; Now we're fine to load the new sectors
 call load_bios
 
-; We should now be able to read the loaded string
-mov bx, loaded_msg
-call print_bios
+; And elevate our CPU to 32-bit mode
+call elevate_bios
 
 ; Infinite Loop
 bootsector_hold:
@@ -56,6 +55,7 @@ jmp $               ; Infinite loop
 %include "real_mode/print_hex.asm"
 %include "real_mode/load.asm"
 %include "real_mode/gdt.asm"
+%include "real_mode/elevate.asm"
 
 ; DATA STORAGE AREA
 
@@ -72,12 +72,15 @@ times 510 - ($ - $$) db 0x00
 dw 0xAA55
 
 bootsector_extended:
+begin_protected:
+
+jmp $       ; Infinite Loop
 
 ; INCLUDE protected-mode functions
 %include "protected_mode/clear.asm"
 %include "protected_mode/print.asm"
 
-loaded_msg:                     db `Now `, 0
+loaded_msg:                     db `Now in 32-bit protected mode`, 0
 
 ; Fill with zeros to the end of the sector
 times 512 - ($ - bootsector_extended) db 0x00
