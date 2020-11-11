@@ -87,8 +87,12 @@ jmp $       ; Infinite Loop
 %include "protected_mode/clear.asm"
 %include "protected_mode/print.asm"
 
+; Define necessary constants
+vga_start:                  equ 0x000B8000
+style_wb:                   equ 0x0F
+
+; Define messages
 protected_alert:                 db `Now in 32-bit protected mode`, 0
 
 ; Fill with zeros to the end of the sector
 times 512 - ($ - bootsector_extended) db 0x00
-bu:

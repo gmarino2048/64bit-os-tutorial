@@ -4,6 +4,11 @@
 ; print.asm
 ;
 
+; Since we no longer have access to BIOS utilities, this function
+; takes advantage of the VGA memory area. We will go over this more
+; in a subsequent chapter, but it is a sequence in memory which
+; controls what is printed on the screen.
+
 [bits 32]
 
 ; Simple 32-bit protected print routine
@@ -35,7 +40,3 @@ print_protected:
 print_protected_done:
     popa
     ret
-
-; Define necessary constants
-vga_start:                  equ 0x000B8000
-style_wb:                   equ 0x0F
