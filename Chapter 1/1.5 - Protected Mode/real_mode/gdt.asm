@@ -9,6 +9,8 @@
 ; The flat mode table allows us to read and write code anywhere, without restriction
 ;
 
+[bits 16]
+
 gdt_32_start:
 
 ; Define the null sector for the 32 bit gdt
