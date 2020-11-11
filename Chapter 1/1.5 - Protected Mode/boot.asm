@@ -77,6 +77,9 @@ dw 0xAA55
 bootsector_extended:
 begin_protected:
 
+; Clear vga memory output
+call clear_protected
+
 ; Test VGA-style print function
 mov esi, protected_alert
 call print_protected
@@ -89,6 +92,7 @@ jmp $       ; Infinite Loop
 
 ; Define necessary constants
 vga_start:                  equ 0x000B8000
+vga_extent:                 equ 80 * 25 * 2             ; VGA Memory is 80 chars wide by 25 chars tall (one char is 2 bytes)
 style_wb:                   equ 0x0F
 
 ; Define messages
