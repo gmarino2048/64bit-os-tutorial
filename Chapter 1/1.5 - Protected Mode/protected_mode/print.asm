@@ -14,6 +14,8 @@
 ; Simple 32-bit protected print routine
 ; Message address stored in esi
 print_protected:
+    ; The pusha command stores the values of all
+    ; registers so we don't have to worry about them
     pusha
     mov edx, vga_start
 
@@ -38,5 +40,7 @@ print_protected:
         jmp print_protected_loop
 
 print_protected_done:
+    ; Popa does the opposite of pusha, and restores all of
+    ; the registers
     popa
     ret
