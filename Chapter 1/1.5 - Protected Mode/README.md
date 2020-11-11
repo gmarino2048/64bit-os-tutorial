@@ -48,7 +48,15 @@ the rest.
 To load the GDT, we pass a pointer to our secondary data structure to the `lgdt`
 command. See the `elevate.asm` file for an example.
 
-## Setting the control Bit
+## Setting the control bit
+
+Now, we need to set the 0th bit of the control register `cr0`. However, `cr0`
+is not connected to any data manipulation logic, so we cannot set it directly.
+Rather, what we can do is copy the `cr0` register to one of our manipulation
+registers like `eax`, and then use the binary `or` operator to set the least
+significant bit. See the `elevate.asm` file for an example of how this is
+done. Once we've set the bit we must move the value back to the `cr0` register
+using the `mov` command.
 
 ## Long jump and pipeline clearing
 
