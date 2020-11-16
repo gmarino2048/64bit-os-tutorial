@@ -1,5 +1,5 @@
 ;
-; The GDT
+; Protected Mode
 ;
 ; boot.asm
 ;
@@ -43,9 +43,8 @@ mov dx, 0x7E00
 ; Now we're fine to load the new sectors
 call load_bios
 
-; We should now be able to read the loaded string
-mov bx, loaded_msg
-call print_bios
+; And elevate our CPU to 32-bit mode
+call elevate_bios
 
 ; Infinite Loop
 bootsector_hold:
@@ -56,6 +55,7 @@ jmp $               ; Infinite loop
 %include "real_mode/print_hex.asm"
 %include "real_mode/load.asm"
 %include "real_mode/gdt.asm"
+%include "real_mode/elevate.asm"
 
 ; DATA STORAGE AREA
 
@@ -71,10 +71,32 @@ times 510 - ($ - $$) db 0x00
 ; Magic number
 dw 0xAA55
 
-bootsector_extended:
 
-loaded_msg:                     db `\r\nNow reading from the next sector!`, 0
+; BEGIN SECOND SECTOR. THIS ONE CONTAINS 32-BIT CODE ONLY
+
+bootsector_extended:
+begin_protected:
+
+; Clear vga memory output
+call clear_protected
+
+; Test VGA-style print function
+mov esi, protected_alert
+call print_protected
+
+jmp $       ; Infinite Loop
+
+; INCLUDE protected-mode functions
+%include "protected_mode/clear.asm"
+%include "protected_mode/print.asm"
+
+; Define necessary constants
+vga_start:                  equ 0x000B8000
+vga_extent:                 equ 80 * 25 * 2             ; VGA Memory is 80 chars wide by 25 chars tall (one char is 2 bytes)
+style_wb:                   equ 0x0F
+
+; Define messages
+protected_alert:                 db `Now in 32-bit protected mode`, 0
 
 ; Fill with zeros to the end of the sector
 times 512 - ($ - bootsector_extended) db 0x00
-bu:
