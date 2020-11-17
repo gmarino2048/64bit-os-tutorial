@@ -17,6 +17,8 @@
 ; Clear the memory in those areas and then set up the page structure
 ; 
 
+[bits 32]
+
 init_pt_protected:
     pusha
 
@@ -24,7 +26,7 @@ init_pt_protected:
     mov edi, 0x1000
     mov cr3, edi
     xor eax, eax
-    mov ecx 4096
+    mov ecx, 4096
     rep stosd
     mov edi, cr3
 

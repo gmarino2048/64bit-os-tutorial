@@ -84,19 +84,23 @@ call clear_protected
 mov esi, protected_alert
 call print_protected
 
+call init_pt_protected
+
 jmp $       ; Infinite Loop
 
 ; INCLUDE protected-mode functions
 %include "protected_mode/clear.asm"
 %include "protected_mode/print.asm"
+%include "protected_mode/init_pt.asm"
 
 ; Define necessary constants
 vga_start:                  equ 0x000B8000
 vga_extent:                 equ 80 * 25 * 2             ; VGA Memory is 80 chars wide by 25 chars tall (one char is 2 bytes)
+kernel_start:               equ 0x00100000
 style_wb:                   equ 0x0F
 
 ; Define messages
-protected_alert:                 db `Now in 32-bit protected mode`, 0
+protected_alert:                 db `64-bit long mode supported`, 0
 
 ; Fill with zeros to the end of the sector
 times 512 - ($ - bootsector_extended) db 0x00
