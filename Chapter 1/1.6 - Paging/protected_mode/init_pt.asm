@@ -20,7 +20,7 @@
 [bits 32]
 
 init_pt_protected:
-    pusha
+    pushad
 
     ; Clear the memory area
     mov edi, 0x1000
@@ -49,5 +49,5 @@ init_pt_protected:
         add edi, 8
         loop add_page_entry_protected
 
-    popa
+    popad
     ret

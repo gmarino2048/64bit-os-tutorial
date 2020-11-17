@@ -16,7 +16,7 @@
 print_protected:
     ; The pusha command stores the values of all
     ; registers so we don't have to worry about them
-    pusha
+    pushad
     mov edx, vga_start
 
     ; Do main loop
@@ -42,5 +42,5 @@ print_protected:
 print_protected_done:
     ; Popa does the opposite of pusha, and restores all of
     ; the registers
-    popa
+    popad
     ret
