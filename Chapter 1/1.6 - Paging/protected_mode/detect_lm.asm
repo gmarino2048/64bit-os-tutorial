@@ -34,17 +34,37 @@ detect_lm_protected:
 
     ; Perform the comparison
     ; If equal, then the bit got flipped back during copy,
-    ; and long mode is not supported
+    ; and CPUID is not supported
     cmp eax, ecx
     je lm_not_found_protected
+
+    ; Check for extended functions of CPUID
+    mov eax, 0x80000000
+    cpuid
+    cmp eax, 0x80000001
+    jb lm_not_found_protected
+
+    ; Actually check for long mode
+    mov eax, 0x80000001
+    cpuid
+    test edx, 1 << 29
+    jz lm_not_found_protected
     
     ; Return from the function
     popad
     ret
 
+cpuid_not_found_protected:
+    call clear_protected
+    mov esi, cpuid_not_found_str
+    call print_protected
+    jmp $
+
 lm_not_found_protected:
     call clear_protected
     mov esi, lm_not_found_str
+    call print_protected
     jmp $
 
-lm_not_found_str:                   db `Long mode unsupported`, 0
+lm_not_found_str:                   db `Long mode not supported. Exiting...`, 0
+cpuid_not_found_str:                db `CPUID unsupported, but required for long mode`, 0
