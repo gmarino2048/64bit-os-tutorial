@@ -57,7 +57,7 @@ init_pt_protected:
                             ; 0x1000 to 0x4FFF, so we want to start at 0x1000
 
     mov cr3, edi            ; Save the PML4T start address in cr3. This will save us time later
-                            ; because cr3 is what the CPU uses to locat the page table entries
+                            ; because cr3 is what the CPU uses to locate the page table entries
 
     xor eax, eax            ; Set eax to 0. Note that xor is actually faster than "mov eax, 0".
 
@@ -117,7 +117,7 @@ init_pt_protected:
                                             ; x++
         loop add_page_entry_protected       ; Decrement ecx and loop again
 
-    ; Now we should have a page table that identity maps the lowest 2MB of physical memory into
+    ; Now we should have a page table that identities maps the lowest 2MB of physical memory into
     ; virtual memory!
     popad
     ret
