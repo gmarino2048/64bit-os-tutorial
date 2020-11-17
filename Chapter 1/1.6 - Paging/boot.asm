@@ -31,8 +31,7 @@ call print_bios
 ; of the drive. Note: Only bl will be used
 mov bx, 0x0002
 
-; We only want to load one sector from the disk for now. This will
-; be higher later. Note: Only cl will be used
+; Now we want to load 2 sectors to load our entire bootloader.
 mov cx, 0x0001
 
 ; Finally, we want to store the new sector immediately after the first
@@ -107,3 +106,8 @@ protected_alert:                 db `64-bit long mode supported`, 0
 
 ; Fill with zeros to the end of the sector
 times 512 - ($ - bootsector_extended) db 0x00
+long_mode_init:
+
+
+
+times 512 - ($ - long_mode_init) db 0x00
