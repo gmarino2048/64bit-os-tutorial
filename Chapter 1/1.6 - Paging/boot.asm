@@ -80,6 +80,8 @@ begin_protected:
 ; Clear vga memory output
 call clear_protected
 
+call detect_lm_protected
+
 ; Test VGA-style print function
 mov esi, protected_alert
 call print_protected
@@ -91,6 +93,7 @@ jmp $       ; Infinite Loop
 ; INCLUDE protected-mode functions
 %include "protected_mode/clear.asm"
 %include "protected_mode/print.asm"
+%include "protected_mode/detect_lm.asm"
 %include "protected_mode/init_pt.asm"
 
 ; Define necessary constants
