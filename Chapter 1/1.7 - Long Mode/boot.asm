@@ -76,16 +76,23 @@ dw 0xAA55
 bootsector_extended:
 begin_protected:
 
+[bits 32]
+
 ; Clear vga memory output
 call clear_protected
 
+; Detect long mode
+; This function will return if there's no error
 call detect_lm_protected
 
 ; Test VGA-style print function
 mov esi, protected_alert
 call print_protected
 
+; Initialize the page table
 call init_pt_protected
+
+call elevate_protected
 
 jmp $       ; Infinite Loop
 
@@ -95,6 +102,7 @@ jmp $       ; Infinite Loop
 %include "protected_mode/detect_lm.asm"
 %include "protected_mode/init_pt.asm"
 %include "protected_mode/gdt.asm"
+%include "protected_mode/elevate.asm"
 
 ; Define necessary constants
 vga_start:                  equ 0x000B8000
@@ -107,8 +115,9 @@ protected_alert:                 db `64-bit long mode supported`, 0
 
 ; Fill with zeros to the end of the sector
 times 512 - ($ - bootsector_extended) db 0x00
-long_mode_init:
+begin_long_mode:
 
+[bits 64]
+jmp $
 
-
-times 512 - ($ - long_mode_init) db 0x00
+times 512 - ($ - begin_long_mode) db 0x00
