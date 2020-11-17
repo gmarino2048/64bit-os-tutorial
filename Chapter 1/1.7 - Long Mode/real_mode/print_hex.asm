@@ -1,5 +1,5 @@
 ;
-; paging
+; Long Mode
 ;
 ; print_hex.asm
 ;

@@ -1,5 +1,5 @@
 ;
-; Paging
+; Long Mode
 ;
 ; init_pt.asm
 ;

@@ -1,5 +1,5 @@
 ;
-; Paging
+; Long Mode
 ;
 ; gdt.asm
 ;
