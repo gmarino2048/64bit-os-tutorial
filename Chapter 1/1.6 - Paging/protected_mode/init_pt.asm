@@ -1,7 +1,7 @@
 ;
 ; Paging
 ;
-; init-pt.asm
+; init_pt.asm
 ;
 
 ;
