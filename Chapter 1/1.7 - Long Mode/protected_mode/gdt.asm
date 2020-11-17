@@ -9,16 +9,16 @@
 ; The flat mode table allows us to read and write code anywhere, without restriction
 ;
 
-gdt_32_start:
+gdt_64_start:
 
-; Define the null sector for the 32 bit gdt
+; Define the null sector for the 64 bit gdt
 ; Null sector is required for memory integrity check
-gdt_32_null:
+gdt_64_null:
     dd 0x00000000           ; All values in null entry are 0
     dd 0x00000000           ; All values in null entry are 0
 
-; Define the code sector for the 32 bit gdt
-gdt_32_code:
+; Define the code sector for the 64 bit gdt
+gdt_64_code:
     ; Base:     0x00000
     ; Limit:    0xFFFFF
     ; 1st Flags:        0b1001
@@ -43,8 +43,8 @@ gdt_32_code:
     db 0b11001111       ; 2nd Flags, Limit (bits 16-19)
     db 0x00             ; Base  (bits 24-31)
 
-; Define the data sector for the 32 bit gdt
-gdt_32_data:
+; Define the data sector for the 64 bit gdt
+gdt_64_data:
     ; Base:     0x00000
     ; Limit:    0xFFFFF
     ; 1st Flags:        0b1001
@@ -69,15 +69,15 @@ gdt_32_data:
     db 0b11001111       ; 2nd Flags, Limit (bits 16-19)
     db 0x00             ; Base  (bits 24-31)
 
-gdt_32_end:
+gdt_64_end:
 
 ; Define the gdt descriptor
 ; This data structure gives cpu length and start address of gdt
 ; We will feed this structure to the CPU in order to set the protected mode GDT
-gdt_32_descriptor:
-    dw gdt_32_end - gdt_32_start - 1        ; Size of GDT, one byte less than true size
-    dd gdt_32_start                         ; Start of the 32 bit gdt
+gdt_64_descriptor:
+    dw gdt_64_end - gdt_64_start - 1        ; Size of GDT, one byte less than true size
+    dd gdt_64_start                         ; Start of the 64 bit gdt
 
 ; Define helpers to find pointers to Code and Data segments
-code_seg:                           equ gdt_32_code - gdt_32_start
-data_seg:                           equ gdt_32_data - gdt_32_start
+code_seg:                           equ gdt_64_code - gdt_64_start
+data_seg:                           equ gdt_64_data - gdt_64_start

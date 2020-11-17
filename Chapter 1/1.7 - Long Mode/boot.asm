@@ -94,6 +94,7 @@ jmp $       ; Infinite Loop
 %include "protected_mode/print.asm"
 %include "protected_mode/detect_lm.asm"
 %include "protected_mode/init_pt.asm"
+%include "protected_mode/gdt.asm"
 
 ; Define necessary constants
 vga_start:                  equ 0x000B8000
