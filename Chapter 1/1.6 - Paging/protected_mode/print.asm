@@ -1,5 +1,5 @@
 ;
-; Protected Mode
+; Paging
 ;
 ; print.asm
 ;

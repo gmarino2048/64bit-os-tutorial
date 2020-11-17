@@ -1,5 +1,5 @@
 ;
-; Protected Mode
+; paging
 ;
 ; print_hex.asm
 ;
