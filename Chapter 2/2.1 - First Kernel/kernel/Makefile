@@ -10,7 +10,7 @@ SRC = $(shell find . -type f -name "*.c")
 ASM_SRC = $(shell find . -type f -name "*.asm")
 OBJ = ${SRC:.c=.o} ${ASM_SRC:.asm=.o}
 
-CCFLAGS = -g -c -ffreestanding
+CCFLAGS = -ggdb -c -ffreestanding -target x86_64-none-elf
 LDFLAGS = -Ttext 0x8200
 LDFLAGS_BIN = ${LDFLAGS} --oformat binary
 ASFLAGS = -f elf64
@@ -28,3 +28,6 @@ kernel.elf: ${OBJ}
 
 %.o: %.asm
 	${ASM} $< ${ASFLAGS} -o $@
+
+clean:
+	rm -f kernel kernel.elf *.o **/*.o
