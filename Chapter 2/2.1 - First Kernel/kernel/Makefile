@@ -8,7 +8,9 @@ ASM = nasm
 INC = -Iinc/
 SRC = $(shell find . -type f -name "*.c")
 ASM_SRC = $(shell find . -type f -name "*.asm")
-OBJ = ${SRC:.c=.o} ${ASM_SRC:.asm=.o}
+
+# CRITICAL: assembly must be linked first
+OBJ = ${ASM_SRC:.asm=.o} ${SRC:.c=.o} 
 
 CCFLAGS = -ggdb -c -ffreestanding -target x86_64-none-elf
 LDFLAGS = -Ttext 0x8200
