@@ -119,12 +119,19 @@ begin_long_mode:
 
 [bits 64]
 
-; Turn the screen blue
-mov edi, 0xB8000
-mov rcx, 500                      ; Since we are clearing uint64_t over here, we put the count as Count/4.
-mov rax, 0x1F201F201F201F20       ; Set the value to set the screen to: Blue background, white foreground, blank spaces.
-rep stosq 
+mov rdi, style_blue
+call clear_long
+
+mov rdi, style_blue
+mov rsi, long_mode_note
+call print_long
 
 jmp $
+
+%include "long_mode/clear.asm"
+%include "long_mode/print.asm"
+
+long_mode_note:                      db `Now running in fully-enabled, 64-bit long mode!`, 0
+style_blue:                     equ 0x1F
 
 times 512 - ($ - begin_long_mode) db 0x00
