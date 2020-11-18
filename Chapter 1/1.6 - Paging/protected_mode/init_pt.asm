@@ -117,6 +117,14 @@ init_pt_protected:
                                             ; x++
         loop add_page_entry_protected       ; Decrement ecx and loop again
 
+    ; Set up PAE paging, but don't enable it quite yet
+    ;
+    ; Here we're basically telling the CPU that we want to use paging, but not quite yet.
+    ; We're enabling the feature, but not using it.
+    mov eax, cr4
+    or eax, 1 << 5               ; Set the PAE-bit, which is the 5th bit
+    mov cr4, eax
+
     ; Now we should have a page table that identities maps the lowest 2MB of physical memory into
     ; virtual memory!
     popad
