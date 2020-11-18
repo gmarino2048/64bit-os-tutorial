@@ -30,10 +30,5 @@ elevate_protected:
     mov fs, ax                    ; Set the F-segment to the A-register.
     mov gs, ax                    ; Set the G-segment to the A-register.
     mov ss, ax                    ; Set the stack segment to the A-register.
-    
-    mov edi, 0xB8000
-    mov rcx, 500                      ; Since we are clearing uint64_t over here, we put the count as Count/4.
-    mov rax, 0x1F201F201F201F20       ; Set the value to set the screen to: Blue background, white foreground, blank spaces.
-    rep stosq 
 
-    jmp $
+    jmp begin_long_mode

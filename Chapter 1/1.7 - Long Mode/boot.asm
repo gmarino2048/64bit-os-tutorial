@@ -118,6 +118,13 @@ times 512 - ($ - bootsector_extended) db 0x00
 begin_long_mode:
 
 [bits 64]
+
+; Turn the screen blue
+mov edi, 0xB8000
+mov rcx, 500                      ; Since we are clearing uint64_t over here, we put the count as Count/4.
+mov rax, 0x1F201F201F201F20       ; Set the value to set the screen to: Blue background, white foreground, blank spaces.
+rep stosq 
+
 jmp $
 
 times 512 - ($ - begin_long_mode) db 0x00
