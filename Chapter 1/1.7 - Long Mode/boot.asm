@@ -32,7 +32,7 @@ call print_bios
 mov bx, 0x0002
 
 ; Now we want to load 2 sectors to load our entire bootloader.
-mov cx, 0x0001
+mov cx, 0x0002
 
 ; Finally, we want to store the new sector immediately after the first
 ; loaded sector, at adress 0x7E00. This will help a lot with jumping between
