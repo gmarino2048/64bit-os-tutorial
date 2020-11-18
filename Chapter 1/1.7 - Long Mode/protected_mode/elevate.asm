@@ -23,15 +23,17 @@ elevate_protected:
 
 [bits 64]
     init_lm:
+    cli
     mov ax, data_seg_64           ; Set the A-register to the data descriptor.
     mov ds, ax                    ; Set the data segment to the A-register.
     mov es, ax                    ; Set the extra segment to the A-register.
     mov fs, ax                    ; Set the F-segment to the A-register.
     mov gs, ax                    ; Set the G-segment to the A-register.
     mov ss, ax                    ; Set the stack segment to the A-register.
-    mov edi, 0xB8000              ; Set the destination index to 0xB8000.
-    mov rax, 0x1F201F201F201F20   ; Set the A-register to 0x1F201F201F201F20.
-    mov ecx, 500                  ; Set the C-register to 500.
-    rep stosq  
+    
+    mov edi, 0xB8000
+    mov rcx, 500                      ; Since we are clearing uint64_t over here, we put the count as Count/4.
+    mov rax, 0x1F201F201F201F20       ; Set the value to set the screen to: Blue background, white foreground, blank spaces.
+    rep stosq 
 
     jmp $

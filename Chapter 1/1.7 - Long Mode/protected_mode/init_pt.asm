@@ -39,6 +39,11 @@ init_pt_protected:
         add edi, 8
         loop add_page_entry_protected
 
+    ; Set up PAE paging, but don't enable it quite yet
+    mov eax, cr4
+    or eax, 1 << 5               ; Set the PAE-bit, which is the 5th bit
+    mov cr4, eax
+
     ; Now we should have a page table that identities maps the lowest 2MB of physical memory into
     ; virtual memory!
     popad

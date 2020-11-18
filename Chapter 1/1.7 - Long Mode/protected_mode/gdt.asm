@@ -9,6 +9,8 @@
 ; The flat mode table allows us to read and write code anywhere, without restriction
 ;
 
+align 4
+
 gdt_64_start:
 
 ; Define the null sector for the 64 bit gdt
