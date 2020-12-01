@@ -8,7 +8,7 @@ typedef struct __attribute__((packed)) {
     char style;
 } vga_char;
 
-vga_char *TEXT_AREA = (vga_char*) VGA_START;
+volatile vga_char *TEXT_AREA = (vga_char*) VGA_START;
 
 void clearwin(){
     vga_char clear_char = {
