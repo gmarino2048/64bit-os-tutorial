@@ -12,7 +12,7 @@ ASM_SRC = $(shell find . -type f -name "*.asm")
 # CRITICAL: assembly must be linked first
 OBJ = ${ASM_SRC:.asm=.o} ${SRC:.c=.o} 
 
-CCFLAGS = -ggdb -c -ffreestanding -target x86_64-none-elf
+CCFLAGS = -Iinc -ggdb -c -ffreestanding -target x86_64-none-elf
 LDFLAGS = -Ttext 0x8200
 LDFLAGS_BIN = ${LDFLAGS} --oformat binary
 ASFLAGS = -f elf64
