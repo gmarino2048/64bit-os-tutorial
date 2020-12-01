@@ -66,4 +66,7 @@ void hide_cursor();
 void advance_cursor();
 void set_cursor_pos(u8_t x, u8_t y);
 
+// Scroll Line
+void scroll_line();
+
 #endif // DRIVER_VGA_TEXT

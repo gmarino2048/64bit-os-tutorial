@@ -5,11 +5,11 @@ int main() {
     set_cursor_pos(0, 0);
     clearwin(COLOR_BLK, COLOR_YEL);
 
-    const char *first = "Our driver can now handle special characters.\n";
+    const char *first = "\n\n\n\nWe can now handle some special characters.";
 
     putstr(first, COLOR_BLK, COLOR_YEL);
 
-    const char *second = "Like tab \t and newline.\n";
+    const char *second = "\nLike tab \t and newline.";
 
     putstr(second, COLOR_BLK, COLOR_YEL);
     

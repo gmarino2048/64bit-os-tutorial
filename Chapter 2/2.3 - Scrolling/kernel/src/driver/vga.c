@@ -33,8 +33,7 @@ void putchar(const char character, const u8_t fg_color, const u8_t bg_color){
         u8_t current_row = (u8_t) current_pos / VGA_WIDTH;
 
         if (++current_row >= VGA_HEIGHT){
-            // Handle scrolling here
-            current_row = VGA_HEIGHT - 1;
+            scroll_line();
         }
 
         set_cursor_pos(0, current_row);
@@ -112,7 +111,7 @@ void advance_cursor(){
     pos++;
 
     if (pos >= VGA_EXTENT){
-        pos = VGA_EXTENT - 1;
+        scroll_line();
     }
 
     byte_out(CURSOR_PORT_COMMAND, 0x0F);
@@ -124,7 +123,7 @@ void advance_cursor(){
 
 
 void set_cursor_pos(u8_t x, u8_t y){
-    u16_t pos = x + ((u16_t) VGA_WIDTH * y);
+    u16_t pos = (u16_t) x + ((u16_t) VGA_WIDTH * y);
 
     if (pos >= VGA_EXTENT){
         pos = VGA_EXTENT - 1;
@@ -138,3 +137,15 @@ void set_cursor_pos(u8_t x, u8_t y){
 }
 
 
+void scroll_line(){
+    for(u16_t i = 1; i < VGA_HEIGHT; i++){
+        for(u16_t j = 0; j < VGA_WIDTH; j++){
+            u16_t to_pos = j + ((i - 1) * VGA_WIDTH);
+            u16_t from_pos = j + (i * VGA_WIDTH);
+
+            TEXT_AREA[to_pos] = TEXT_AREA[from_pos];
+        }
+    }
+
+    set_cursor_pos(0, VGA_HEIGHT - 1);
+}
