@@ -44,7 +44,7 @@ u8_t vga_color(u8_t fg_color, u8_t bg_color);
 
 
 // Clear the screen with a color
-void clearwin(u8_t color);
+void clearwin(u8_t fg_color, u8_t bg_color);
 
 
 // Print a character to the screen

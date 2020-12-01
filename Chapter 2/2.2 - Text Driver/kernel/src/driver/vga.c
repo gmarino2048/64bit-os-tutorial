@@ -12,9 +12,9 @@ u8_t vga_color(u8_t fg_color, u8_t bg_color){
 }
 
 
-void clearwin(u8_t color){
+void clearwin(u8_t fg_color, u8_t bg_color){
     const char space = ' ';
-    u8_t clear_color = vga_color(COLOR_BLK, color);
+    u8_t clear_color = vga_color(fg_color, bg_color);
 
     const vga_char clear_char = {
         .character = space,
