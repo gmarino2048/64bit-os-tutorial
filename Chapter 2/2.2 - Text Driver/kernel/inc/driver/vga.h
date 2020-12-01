@@ -40,18 +40,18 @@ typedef struct  __attribute__((packed)) {
 
 
 // Get the char to use as the style char
-u8_t vga_color(u8_t fg_color, u8_t bg_color);
+u8_t vga_color(const u8_t fg_color, const u8_t bg_color);
 
 
 // Clear the screen with a color
-void clearwin(u8_t fg_color, u8_t bg_color);
+void clearwin(const u8_t fg_color, const u8_t bg_color);
 
 
 // Print a character to the screen
-void putchar(char character, u8_t fg_color, u8_t bg_color);
+void putchar(const char character, const u8_t fg_color, const u8_t bg_color);
 
 // Print a string to the screen
-void putstr(char *string, u8_t fg_color, u8_t bg_color);
+void putstr(const char *string, const u8_t fg_color, const u8_t bg_color);
 
 
 // Get the cursor position
