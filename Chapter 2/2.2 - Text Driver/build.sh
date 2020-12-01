@@ -1,5 +1,8 @@
 #!/bin/bash
 
+rm -f os.img
+(make -C kernel clean)
+
 (cd bootloader ; nasm -o boot boot.asm)
 boot_result=$?
 
