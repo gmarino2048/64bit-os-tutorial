@@ -3,19 +3,15 @@
 
 int main() {
     set_cursor_pos(0, 0);
-    clearwin(COLOR_BLK, COLOR_LCY);
+    clearwin(COLOR_BLK, COLOR_YEL);
 
-    const char *first = "Now we have a more advanced vga driver that does what we want! ";
+    const char *first = "Our driver can now handle special characters.\n";
 
-    putstr(first, COLOR_BLK, COLOR_LCY);
+    putstr(first, COLOR_BLK, COLOR_YEL);
 
-    const char *second = "It even wraps the text around the screen and moves the cursor correctly. ";
+    const char *second = "Like tab \t and newline.\n";
 
-    putstr(second, COLOR_BLK, COLOR_LCY);
-
-    const char *third = "But if we reach the end of the screen it still doesn't quite scroll properly...";
-
-    putstr(third, COLOR_BLK, COLOR_LCY);
+    putstr(second, COLOR_BLK, COLOR_YEL);
     
     return 0;
 }

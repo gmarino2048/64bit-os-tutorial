@@ -28,14 +28,42 @@ void clearwin(u8_t fg_color, u8_t bg_color){
 
 
 void putchar(const char character, const u8_t fg_color, const u8_t bg_color){
-    u8_t style = vga_color(fg_color, bg_color);
-    vga_char printed = {
-        .character = character,
-        .style = style
-    };
+    if (character == '\n'){
+        u16_t current_pos = get_cursor_pos();
+        u8_t current_row = (u8_t) current_pos / VGA_WIDTH;
 
-    u16_t position = get_cursor_pos();
-    TEXT_AREA[position] = printed;
+        if (++current_row >= VGA_HEIGHT){
+            // Handle scrolling here
+            current_row = VGA_HEIGHT - 1;
+        }
+
+        set_cursor_pos(0, current_row);
+    }
+
+    else if (character == '\r'){
+        u16_t current_pos = get_cursor_pos();
+        u8_t current_row = (u8_t) current_pos / VGA_WIDTH;
+
+        set_cursor_pos(0, current_row);
+    }
+
+    else if (character == '\t'){
+        // Turn tab to 4 spaces
+        for (u8_t i = 0; i < 4; i++){
+            putchar(' ', fg_color, bg_color);
+        }
+    }
+
+    else {
+        u8_t style = vga_color(fg_color, bg_color);
+        vga_char printed = {
+            .character = character,
+            .style = style
+        };
+
+        u16_t position = get_cursor_pos();
+        TEXT_AREA[position] = printed;
+    }
 }
 
 
