@@ -1,5 +1,5 @@
 # Interrupt
-An interrupt is generated from the CPU to signal the kernel of  
+An interrupt is generated from the CPU to signal the kernel of 
 external hardware state changes. Interrupts are then handled by 
 the interrupt handler, which is where the kernel takes action. 
 
