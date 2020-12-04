@@ -4,16 +4,16 @@
 #include <types.h>
 
 // Define the ISR's for CPU exceptions
-extern void isr_00();
-extern void isr_01();
-extern void isr_02();
-extern void isr_03();
-extern void isr_04();
-extern void isr_05();
-extern void isr_06();
-extern void isr_07();
-extern void isr_08();
-extern void isr_09();
+extern void isr_0();
+extern void isr_1();
+extern void isr_2();
+extern void isr_3();
+extern void isr_4();
+extern void isr_5();
+extern void isr_6();
+extern void isr_7();
+extern void isr_8();
+extern void isr_9();
 extern void isr_10();
 extern void isr_11();
 extern void isr_12();
@@ -47,7 +47,7 @@ void isr_install();
 typedef struct {
     u64_t ds;
     u64_t rdi, rsi, rbp, rsp, rdx, rcx, rbx, rax;
-    u64_t int_no, errCode;
+    u64_t int_no, err_code;
     u64_t rip, cs, eflags, useresp, ss;
 } registers;
 
