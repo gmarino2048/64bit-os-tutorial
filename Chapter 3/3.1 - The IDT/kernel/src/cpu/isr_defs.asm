@@ -4,7 +4,7 @@
 ; isr.asm
 ;
 
-% macro PUSHALL 0
+%macro PUSHALL 0
     push rax
     push rbx
     push rcx
@@ -13,9 +13,9 @@
     push rbp
     push rsi
     push rdi
-% endmacro
+%endmacro
 
-% macro POPALL 0
+%macro POPALL 0
     pop rdi
     pop rsi
     pop rbp
@@ -24,7 +24,7 @@
     pop rcx
     pop rbx
     pop rax
-% endmacro
+%endmacro
 
 
 ; Load the interrupt handler
