@@ -19,7 +19,7 @@ It's not complete yet, but it's gotten to a point where we felt it could be help
 ## Who it's for
 
 This tutorial is aimed at people who have a general understanding about C and Assembly,
-but not necessarily computer experts. It's designed to be as accessible as possible, so
+but are not necessarily computer experts. It's designed to be as accessible as possible, so
 it may feel at times like we over-explain some concepts (and that's okay). However, if
 you find yourself hopelessly lost **please let us know.** We created this project because
 we didn't like the gatekeeping seen in OS development, and we'd be happy to amend our
