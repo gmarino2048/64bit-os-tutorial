@@ -114,6 +114,7 @@ void advance_cursor(){
 
     if (pos >= VGA_EXTENT){
         scroll_line();
+        pos = get_cursor_pos();
     }
 
     byte_out(CURSOR_PORT_COMMAND, 0x0F);
