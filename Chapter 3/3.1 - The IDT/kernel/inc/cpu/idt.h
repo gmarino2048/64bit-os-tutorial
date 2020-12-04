@@ -3,6 +3,8 @@
 
 #include <types.h>
 
+#define KERNEL_CS 0x08
+#define INT_ATTR 0x8E           // 0b10001110
 #define IDT_ENTRIES 256
 
 // Define the interrupt handler register
@@ -35,6 +37,6 @@ extern idt_register main_idt_reg;
 
 // Add functions for setting IDT gates
 void set_idt();
-void set_idt_gate(u32_t gate_number, u32_t handler);
+void set_idt_gate(u8_t gate_number, u64_t handler_address);
 
 #endif
