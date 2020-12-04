@@ -1,22 +1,27 @@
 
+#include <cpu/isr.h>
 #include <driver/vga.h>
 
 int main() {
+    isr_install();
+
     set_cursor_pos(0, 0);
-    clearwin(COLOR_BLK, COLOR_YEL);
+    clearwin(COLOR_GRN, COLOR_BLK);
 
     const char *first = "\n\n\n\nWe can now handle some special characters.";
 
-    putstr(first, COLOR_BLK, COLOR_YEL);
+    putstr(first, COLOR_GRN, COLOR_BLK);
 
     const char *second = "\nLike tab \t and newline.";
 
-    putstr(second, COLOR_BLK, COLOR_YEL);
+    putstr(second, COLOR_GRN, COLOR_BLK);
 
     const char *third = "\nAnd it scrolls!";
-    for (u16_t i = 0; i < 21; i++){
-        putstr(third, COLOR_BLK, COLOR_YEL);
+    for (u16_t i = 0; i < 18; i++){
+        putstr(third, COLOR_GRN, COLOR_BLK);
     }
+    
+    putstr("\nThis interrupt is most likely NOT a double-fault, but a problem with us not remapping IRQ 8, so it shows up on this channel\n", COLOR_GRN, COLOR_BLK);
     
     return 0;
 }
