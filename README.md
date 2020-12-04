@@ -1,4 +1,7 @@
 # MiniOS
+
+### Created by Guy Marino, Noah Houpt, and Steven Nyeo
+
 ## Problem Statement
 Modern Operating Systems are far too complex for beginners to analyze, and very few have any concrete documentation on their development. Similarly, many Operating Systems courses focus solely on interfacing with an existing Operating System (usually Linux).
 
