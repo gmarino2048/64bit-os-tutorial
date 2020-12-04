@@ -35,7 +35,9 @@ a pull request. I'll try to get to them all as soon as possible :)
 This tutorial uses the LLVM compiler suite, including `clang` and `ld.lld`. If you don't
 have those installed, you'll need to do so and add them to your path. We also use `nasm`
 for our assembler, and `qemu-system-x86_64` as our emulator. Optionally, `gdb` can be used
-to debug kernel code.
+to debug kernel code. While not required, this tutorial uses shell scripts to make building
+and debugging easier. We strongly recommend that you have `bash` installed at `/bin/bash`
+(or at least symlinked there). If not, you can run the scripts using the `bash` command.
 
 You should be able to run all of the above commands in a terminal window without specifying
 the full path. If you can't, you'll probably need to install them and add them to your path.
