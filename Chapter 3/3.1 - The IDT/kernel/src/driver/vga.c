@@ -41,6 +41,12 @@ void putchar(const char character, const u8_t fg_color, const u8_t bg_color){
         }
     }
 
+    else if (character == '\b'){
+        move_back_cursor();
+        putchar(' ', fg_color, bg_color);
+        move_back_cursor();
+    }
+
     else if (character == '\r'){
         u8_t current_row = (u8_t) (position / VGA_WIDTH);
 
@@ -114,7 +120,6 @@ void advance_cursor(){
 
     if (pos >= VGA_EXTENT){
         scroll_line();
-        pos = get_cursor_pos();
     }
 
     byte_out(CURSOR_PORT_COMMAND, 0x0F);
@@ -166,4 +171,15 @@ void scroll_line(){
     }
 
     set_cursor_pos(0, VGA_HEIGHT - 1);
+}
+
+void move_back_cursor(){
+    unsigned short pos = get_cursor_pos();
+    pos--;
+
+    byte_out(CURSOR_PORT_COMMAND, 0x0F);
+    byte_out(CURSOR_PORT_DATA, (unsigned char) (pos & 0xFF));
+
+    byte_out(CURSOR_PORT_COMMAND, 0x0E);
+    byte_out(CURSOR_PORT_DATA, (unsigned char) ((pos >> 8) & 0xFF));
 }
