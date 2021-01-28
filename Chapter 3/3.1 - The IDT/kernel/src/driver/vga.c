@@ -42,9 +42,9 @@ void putchar(const char character, const u8_t fg_color, const u8_t bg_color){
     }
 
     else if (character == '\b'){
-        move_back_cursor();
+        reverse_cursor();
         putchar(' ', fg_color, bg_color);
-        move_back_cursor();
+        reverse_cursor();
     }
 
     else if (character == '\r'){
@@ -130,7 +130,7 @@ void advance_cursor(){
 }
 
 
-void move_back_cursor(){
+void reverse_cursor(){
     unsigned short pos = get_cursor_pos();
     pos--;
 

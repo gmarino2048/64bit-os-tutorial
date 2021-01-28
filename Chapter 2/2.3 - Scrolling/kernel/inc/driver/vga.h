@@ -64,7 +64,7 @@ void hide_cursor();
 
 // Set the cursor position
 void advance_cursor();
-void move_back_cursor();
+void reverse_cursor();
 void set_cursor_pos(u8_t x, u8_t y);
 
 // Scroll Line
