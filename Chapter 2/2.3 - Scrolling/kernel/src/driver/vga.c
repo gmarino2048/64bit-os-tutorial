@@ -130,6 +130,18 @@ void advance_cursor(){
 }
 
 
+void move_back_cursor(){
+    unsigned short pos = get_cursor_pos();
+    pos--;
+
+    byte_out(CURSOR_PORT_COMMAND, 0x0F);
+    byte_out(CURSOR_PORT_DATA, (unsigned char) (pos & 0xFF));
+
+    byte_out(CURSOR_PORT_COMMAND, 0x0E);
+    byte_out(CURSOR_PORT_DATA, (unsigned char) ((pos >> 8) & 0xFF));
+}
+
+
 void set_cursor_pos(u8_t x, u8_t y){
     u16_t pos = (u16_t) x + ((u16_t) VGA_WIDTH * y);
 
@@ -171,15 +183,4 @@ void scroll_line(){
     }
 
     set_cursor_pos(0, VGA_HEIGHT - 1);
-}
-
-void move_back_cursor(){
-    unsigned short pos = get_cursor_pos();
-    pos--;
-
-    byte_out(CURSOR_PORT_COMMAND, 0x0F);
-    byte_out(CURSOR_PORT_DATA, (unsigned char) (pos & 0xFF));
-
-    byte_out(CURSOR_PORT_COMMAND, 0x0E);
-    byte_out(CURSOR_PORT_DATA, (unsigned char) ((pos >> 8) & 0xFF));
 }
