@@ -97,5 +97,5 @@ sh build.sh
 Then, to run the program in QEMU, use the following command:
 
 ```sh
-qemu-system-x86_64 -drive format=raw,file=boot
+qemu-system-x86_64 -drive format=raw,file=os.img
 ```
