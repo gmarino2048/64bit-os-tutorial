@@ -20,11 +20,11 @@ clear_protected:
 
     ; Do main loop
     clear_protected_loop:
-        ; While eax < ebx
+        ; While edx < ebx
         cmp edx, ebx
         jge clear_protected_done
 
-        ; Free eax to use later
+        ; Free edx to use later
         push edx
 
         ; Move character to al, style to ah
@@ -35,7 +35,7 @@ clear_protected:
         add edx, ecx
         mov word[edx], ax
 
-        ; Restore eax
+        ; Restore edx
         pop edx
 
         ; Increment counter
