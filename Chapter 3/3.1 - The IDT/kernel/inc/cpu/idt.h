@@ -25,7 +25,7 @@ typedef struct __attribute__((packed)) {
                                 //      - Bit 4:     Set to 0 for interrupt gates
                                 //      - Bits 3-0:  Always 1110 for 32 bit interrupt gate
     u16_t base_middle;          // Middle 16 bits of the address to jump to
-    u32_t base_high;            // High 16 bits of the address to jump to
+    u32_t base_high;            // High 32 bits of the address to jump to
     u32_t reserved;             // Must always be 0
 } idt_gate;
 
