@@ -21,7 +21,9 @@ int main() {
         putstr(third, COLOR_GRN, COLOR_BLK);
     }
 
-    putstr("\nThis interrupt is most likely NOT a double-fault,\nbut a problemwith us not remapping IRQ 8,\nso it shows up on Channel 8\n", COLOR_GRN, COLOR_BLK);
+    putstr("\nThis interrupt is most likely NOT a double-fault,\n", COLOR_GRN, COLOR_BLK);
+    putstr("but a problemwith us not remapping the timer IRQ from the PIC,\n", COLOR_GRN, COLOR_BLK);
+    putstr("so it shows up on Channel 8\n", COLOR_GRN, COLOR_BLK);
 
     return 0;
 }
