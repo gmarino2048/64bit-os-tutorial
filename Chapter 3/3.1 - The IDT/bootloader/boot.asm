@@ -31,8 +31,8 @@ call print_bios
 ; of the drive. Note: Only bl will be used
 mov bx, 0x0002
 
-; Now we want to load 11 sectors for the bootloader and kernel
-mov cx, 0x000B
+; Now we want to load 15 sectors for the bootloader and kernel
+mov cx, 0x000E
 
 ; Finally, we want to store the new sector immediately after the first
 ; loaded sector, at adress 0x7E00. This will help a lot with jumping between
@@ -132,7 +132,7 @@ jmp $
 %include "long_mode/clear.asm"
 %include "long_mode/print.asm"
 
-kernel_start:                   equ 0x8350              ; Kernel is at 1MB
+kernel_start:                   equ 0x8BE0              ; Kernel is at 1MB
 long_mode_note:                 db `Now running in fully-enabled, 64-bit long mode!`, 0
 style_blue:                     equ 0x1F
 

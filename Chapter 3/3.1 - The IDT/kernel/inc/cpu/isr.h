@@ -44,15 +44,22 @@ void isr_install();
 
 
 // Structure to push registers when saving for ISR
-typedef struct {
-    u64_t ds;
-    u64_t rdi, rsi, rbp, rsp, rdx, rcx, rbx, rax;
-    u64_t int_no, err_code;
-    u64_t rip, cs, eflags, useresp, ss;
+typedef struct __attribute__((packed)) {
+    // Define the callee-saved registers
+    u64_t r15, r14, r13, r12, rbp, rbx;
+
+    // Define the callee-clobbered registers
+    u64_t r11, r10, r9, r8, rax, rcx, rdx, rsi, rdi;
+
+    // Define the IRQ Number and the error code
+    u64_t irq_number, error_code;
+
+    // Define the return frame for the iretq call
+    u64_t rip, cs, eflags, rsp, ss;
 } registers;
 
 
 // One handler for all ISR's
-void isr_handler(registers regs);
+void isr_handler(u64_t isr_number, u64_t error_code, registers* regs);
 
 #endif

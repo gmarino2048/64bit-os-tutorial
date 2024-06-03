@@ -84,10 +84,7 @@ void isr_install(){
     __asm__ volatile("sti");
 }
 
-
-void isr_handler(registers regs){
-    putstr("\rReceived Interrupt: ", COLOR_WHT, COLOR_RED);
-
-    const char *message = exception_messages[regs.int_no];
-    putstr(message, COLOR_WHT, COLOR_RED);
+__attribute__((sysv_abi))
+void isr_handler(u64_t isr_number, u64_t error_code, registers* regs) {
+    // TODO: Better interrupt handler
 }
