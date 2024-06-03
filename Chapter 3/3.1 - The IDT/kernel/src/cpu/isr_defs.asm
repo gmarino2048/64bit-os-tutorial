@@ -4,78 +4,101 @@
 ; isr.asm
 ;
 
+; Notify File of the External Interrupt Handler
+[extern isr_handler]
+
+; The size of the General-Purpose registers, needed for getting the syscall number
+REGISTER_SIZE:          equ 0x78
+QUADWORD_SIZE:          equ 0x08
+
 %macro PUSHALL 0
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsp
-    push rbp
-    push rsi
     push rdi
+    push rsi
+    push rdx
+    push rcx
+    push rax
+    push r8
+    push r9
+    push r10
+    push r11
+    push rbx
+    push rbp
+    push r12
+    push r13
+    push r14
+    push r15
 %endmacro
 
 %macro POPALL 0
-    pop rdi
-    pop rsi
+    pop r15
+    pop r14
+    pop r13
+    pop r12
     pop rbp
-    pop rsp
-    pop rdx
-    pop rcx
     pop rbx
+    pop r11
+    pop r10
+    pop r9
+    pop r8
     pop rax
+    pop rcx
+    pop rdx
+    pop rsi
+    pop rdi
 %endmacro
 
-
-; Load the interrupt handler
-[extern isr_handler]
-
-
-; ISR common stub which all routines jump back to
-isr_common:
+%macro SAVE_REGS_AND_CALL_HANDLER 1
+    ; Save all registers since calling context is unknown
     PUSHALL
 
-    ; Save CPU State
-    mov ax, ds
-    push rax
+    ; Configure arguments for the method call (Using SYSV ABI)
+    ; RDI Should contain the interrupt Number
+    ; RSI Should contain the error code
+    ; RDX Should contain the pointer to the registers (AKA the stack pointer)
+    mov rdx, rsp
+    mov rdi, [rsp + REGISTER_SIZE]                      ; ISR Number is last on the stack
+    mov rsi, [rsp + REGISTER_SIZE + QUADWORD_SIZE]      ; Error Code is first on the stack
 
-    ; Set the segdefs to kernel segment descriptor
-    mov ax, 0x10
-    mov ds, ax
-    mov es, ax
-    mov fs, ax
-    mov gs, ax
+    call %1
 
-    ; Call the isr handler
-    call isr_handler
-
-    pop rax
-    mov ds, ax
-    mov es, ax
-    mov fs, ax
-    mov gs, ax
+    ; Restore all registers before returning
     POPALL
-
-    add rsp, 8          ; Removes the pushed error code and ISR number
-    sti
-    iretq
+%endmacro
 
 
 %macro ISR_NOERRCODE 1
   global isr_%1
   isr_%1:
     cli
-    push byte 0
-    push byte %1
-    jmp isr_common
+
+    push qword 0
+    push qword %1
+
+    SAVE_REGS_AND_CALL_HANDLER isr_handler
+
+    ; Pop the stack by 2 quadwords for the ISR Number and Error Code
+    add rsp, 0x10
+
+    sti
+
+    iretq
 %endmacro
 
 %macro ISR_ERRCODE 1
   global isr_%1
   isr_%1:
     cli
-    push byte %1
-    jmp isr_common
+
+    push qword %1
+
+    SAVE_REGS_AND_CALL_HANDLER isr_handler
+
+    ; Pop the stack by 2 quadwords for the ISR Number and Error Code
+    add rsp, 0x10
+
+    sti
+
+    iretq
 %endmacro
 
 ISR_NOERRCODE 0
@@ -86,7 +109,16 @@ ISR_NOERRCODE 4
 ISR_NOERRCODE 5
 ISR_NOERRCODE 6
 ISR_NOERRCODE 7
-ISR_ERRCODE   8
+
+; WARNING
+; ISR 8 is a special case. Usually this would be a double fault handler
+; and would require an error code. However, we do not remap the PIC in
+; this chapter, so it tends to field an interrupt request from the PIC
+; which doesn't push an error code onto the stack. For the purposes of
+; this chapter, I'm using the NOERRCODE macro to avoid a page fault
+; when returning from this interrupt.
+ISR_NOERRCODE 8
+
 ISR_NOERRCODE 9
 ISR_ERRCODE   10
 ISR_ERRCODE   11

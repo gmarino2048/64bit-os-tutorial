@@ -25,6 +25,7 @@ char *exception_messages[] = {
 
     "Coprocessor Fault",
     "Alignment Check",
+    "Machine Check",
     "Reserved",
     "Reserved",
     "Reserved",
@@ -84,10 +85,8 @@ void isr_install(){
     __asm__ volatile("sti");
 }
 
-
-void isr_handler(registers regs){
-    putstr("\rReceived Interrupt: ", COLOR_WHT, COLOR_RED);
-
-    const char *message = exception_messages[regs.int_no];
+__attribute__((sysv_abi))
+void isr_handler(u64_t isr_number, u64_t error_code, registers* regs) {
+    const char* message = exception_messages[isr_number];
     putstr(message, COLOR_WHT, COLOR_RED);
 }
