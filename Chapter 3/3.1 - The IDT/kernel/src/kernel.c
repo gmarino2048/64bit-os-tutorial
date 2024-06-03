@@ -20,8 +20,8 @@ int main() {
     for (u16_t i = 0; i < 18; i++){
         putstr(third, COLOR_GRN, COLOR_BLK);
     }
-    
-    putstr("\nThis interrupt is most likely NOT a double-fault, but a problem with us not remapping IRQ 8, so it shows up on this channel\n", COLOR_GRN, COLOR_BLK);
-    
+
+    putstr("\nThis interrupt is most likely NOT a double-fault,\nbut a problemwith us not remapping IRQ 8,\nso it shows up on Channel 8\n", COLOR_GRN, COLOR_BLK);
+
     return 0;
 }
