@@ -109,7 +109,16 @@ ISR_NOERRCODE 4
 ISR_NOERRCODE 5
 ISR_NOERRCODE 6
 ISR_NOERRCODE 7
+
+; WARNING
+; ISR 8 is a special case. Usually this would be a double fault handler
+; and would require an error code. However, we do not remap the PIC in
+; this chapter, so it tends to field an interrupt request from the PIC
+; which doesn't push an error code onto the stack. For the purposes of
+; this chapter, I'm using the NOERRCODE macro to avoid a page fault
+; when returning from this interrupt.
 ISR_NOERRCODE 8
+
 ISR_NOERRCODE 9
 ISR_ERRCODE   10
 ISR_ERRCODE   11

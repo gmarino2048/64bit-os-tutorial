@@ -31,8 +31,8 @@ call print_bios
 ; of the drive. Note: Only bl will be used
 mov bx, 0x0002
 
-; Now we want to load 15 sectors for the bootloader and kernel
-mov cx, 0x000E
+; Now we want to load 16 sectors for the bootloader and kernel
+mov cx, 0x0010
 
 ; Finally, we want to store the new sector immediately after the first
 ; loaded sector, at adress 0x7E00. This will help a lot with jumping between

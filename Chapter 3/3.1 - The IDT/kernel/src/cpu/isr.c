@@ -87,5 +87,6 @@ void isr_install(){
 
 __attribute__((sysv_abi))
 void isr_handler(u64_t isr_number, u64_t error_code, registers* regs) {
-    // TODO: Better interrupt handler
+    const char* message = exception_messages[isr_number];
+    putstr(message, COLOR_WHT, COLOR_RED);
 }
