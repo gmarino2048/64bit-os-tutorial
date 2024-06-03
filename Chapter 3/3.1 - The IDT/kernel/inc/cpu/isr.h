@@ -3,7 +3,19 @@
 
 #include <types.h>
 
-// Define the ISR's for CPU exceptions
+typedef struct __attribute__((packed)) {
+    u64_t rax, rbx, rcx, rdx, rsi, rdi, rbp, r8, r9, r10, r11, r12, r13, r14, r15;
+    u64_t int_no, error_code, rip;
+    u16_t cs;
+    u64_t rflags, rsp;
+    u16_t ss;
+} interrupt_stack_frame;
+
+
+void common_handler(interrupt_stack_frame stack_frame);
+
+
+// ISR Definitions
 extern void isr_0();
 extern void isr_1();
 extern void isr_2();
@@ -37,22 +49,6 @@ extern void isr_29();
 extern void isr_30();
 extern void isr_31();
 
-
-// Function to install the ISR's to the IDT and
-// load the IDT to the CPU
-void isr_install();
-
-
-// Structure to push registers when saving for ISR
-typedef struct {
-    u64_t ds;
-    u64_t rdi, rsi, rbp, rsp, rdx, rcx, rbx, rax;
-    u64_t int_no, err_code;
-    u64_t rip, cs, eflags, useresp, ss;
-} registers;
-
-
-// One handler for all ISR's
-void isr_handler(registers regs);
+void setup_idt_gates();
 
 #endif

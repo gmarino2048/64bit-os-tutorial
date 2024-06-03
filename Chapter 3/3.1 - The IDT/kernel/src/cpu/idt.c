@@ -1,5 +1,7 @@
 #include <cpu/idt.h>
 
+#include <cpu/isr.h>
+
 // Provide definitions for our extern values
 idt_gate main_idt[IDT_ENTRIES];
 idt_register main_idt_reg;
@@ -32,4 +34,13 @@ void set_idt_gate(u8_t gate_number, u64_t handler_address){
     };
 
     main_idt[gate_number] = gate;
+}
+
+void install_idt() {
+    __asm__ volatile ("cli");
+
+    setup_idt_gates();
+    set_idt();
+
+    __asm__ volatile ("sti");
 }

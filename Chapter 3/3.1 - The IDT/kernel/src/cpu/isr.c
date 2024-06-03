@@ -1,37 +1,36 @@
 
 #include <cpu/isr.h>
+
 #include <cpu/idt.h>
 #include <driver/vga.h>
 
-// Give string values for each exception
-char *exception_messages[] = {
-    "Division by Zero",
+static const char *interrupt_descriptions[32] = {
+    "Divide Error",
     "Debug",
-    "Non-Maskable Interrupt",
+    "NMI Interrupt",
     "Breakpoint",
     "Overflow",
-    "Out of Bounds",
-    "Invalid Opcode",
-    "No Coprocessor",
-
+    "BOUND Range Exceeded",
+    "Invalid Opcode (Undefined Opcode)",
+    "Device Not Available (No Math Coprocessor)",
     "Double Fault",
-    "Coprocessor Segment Overrun",
-    "Bat TSS",
-    "Segment not Present",
-    "Stack Fault",
-    "General Protection Fault",
-    "Page Fault",
-    "Unknown Interrupt",
 
-    "Coprocessor Fault",
+    "Coprocessor Segment Overrun",
+    "Invalid TSS",
+    "Segment Not Present",
+    "Stack Segment Fault",
+    "General Protection",
+    "Page Fault",
+    "Reserved",
+    "Floating-Point Error (Math Fault)",
     "Alignment Check",
     "Machine Check",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
+    "SIMD Floating-Point Exception",
+    "Virtualization Exception",
+    "Control Protection Exception",
 
+    "Reserved",
+    "Reserved",
     "Reserved",
     "Reserved",
     "Reserved",
@@ -42,9 +41,14 @@ char *exception_messages[] = {
     "Reserved"
 };
 
+void common_handler(interrupt_stack_frame stack_frame) {
+    u8_t interrupt_no = stack_frame.int_no;
 
-// Install the ISR's to the IDT
-void isr_install(){
+    putstr("Interrupt Received: ", COLOR_WHT, COLOR_RED);
+    putstr(interrupt_descriptions[interrupt_no], COLOR_WHT, COLOR_RED);
+}
+
+void setup_idt_gates() {
     set_idt_gate(0, (u64_t) isr_0);
     set_idt_gate(1, (u64_t) isr_1);
     set_idt_gate(2, (u64_t) isr_2);
@@ -77,18 +81,4 @@ void isr_install(){
     set_idt_gate(29, (u64_t) isr_29);
     set_idt_gate(30, (u64_t) isr_30);
     set_idt_gate(31, (u64_t) isr_31);
-
-    // Load the IDT to the CPU
-    set_idt();
-
-    // Enable Interrupts
-    __asm__ volatile("sti");
-}
-
-
-void isr_handler(registers regs){
-    putstr("\rReceived Interrupt: ", COLOR_WHT, COLOR_RED);
-
-    const char *message = exception_messages[regs.int_no];
-    putstr(message, COLOR_WHT, COLOR_RED);
 }

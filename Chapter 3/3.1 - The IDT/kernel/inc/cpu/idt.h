@@ -39,4 +39,7 @@ extern idt_register main_idt_reg;
 void set_idt();
 void set_idt_gate(u8_t gate_number, u64_t handler_address);
 
+// Main method for setting and enabling the IDT
+void install_idt();
+
 #endif

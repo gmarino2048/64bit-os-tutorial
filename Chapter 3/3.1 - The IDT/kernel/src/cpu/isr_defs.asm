@@ -1,112 +1,104 @@
 ;
 ; The IDT
 ;
-; isr.asm
+; isr_defs.asm
 ;
 
-%macro PUSHALL 0
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsp
+[bits 64]
+[extern common_handler]
+
+save_registers:
+    push r15
+    push r14
+    push r13
+    push r12
+    push r11
+    push r10
+    push r9
+    push r8
     push rbp
-    push rsi
     push rdi
-%endmacro
-
-%macro POPALL 0
-    pop rdi
-    pop rsi
-    pop rbp
-    pop rsp
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-%endmacro
-
-
-; Load the interrupt handler
-[extern isr_handler]
-
-
-; ISR common stub which all routines jump back to
-isr_common:
-    PUSHALL
-
-    ; Save CPU State
-    mov ax, ds
+    push rsi
+    push rdx
+    push rcx
+    push rbx
     push rax
+    ; TODO: This doesn't work because you push stuff onto the stack. Figure out a workaround
+    ret
 
-    ; Set the segdefs to kernel segment descriptor
-    mov ax, 0x10
-    mov ds, ax
-    mov es, ax
-    mov fs, ax
-    mov gs, ax
-
-    ; Call the isr handler
-    call isr_handler
-
+restore_registers:
     pop rax
-    mov ds, ax
-    mov es, ax
-    mov fs, ax
-    mov gs, ax
-    POPALL
+    pop rbx
+    pop rcx
+    pop rdx
+    pop rsi
+    pop rdi
+    pop rbp
+    pop r8
+    pop r9
+    pop r10
+    pop r11
+    pop r12
+    pop r13
+    pop r14
+    pop r15
+    ret
 
-    add rsp, 8          ; Removes the pushed error code and ISR number
+
+%macro ISR_WITH_ERRORCODE 1
+global isr_%1
+isr_%1:
+    cli
+    push qword %1
+    call save_registers
+    call common_handler
+    call restore_registers
     sti
     iretq
-
-
-%macro ISR_NOERRCODE 1
-  global isr_%1
-  isr_%1:
-    cli
-    push byte 0
-    push byte %1
-    jmp isr_common
 %endmacro
 
-%macro ISR_ERRCODE 1
-  global isr_%1
-  isr_%1:
+%macro ISR_WITH_NO_ERRORCODE 1
+global isr_%1
+isr_%1:
     cli
-    push byte %1
-    jmp isr_common
+    push qword 0
+    push qword %1
+    call save_registers
+    call common_handler
+    call restore_registers
+    iretq
 %endmacro
 
-ISR_NOERRCODE 0
-ISR_NOERRCODE 1
-ISR_NOERRCODE 2
-ISR_NOERRCODE 3
-ISR_NOERRCODE 4
-ISR_NOERRCODE 5
-ISR_NOERRCODE 6
-ISR_NOERRCODE 7
-ISR_ERRCODE   8
-ISR_NOERRCODE 9
-ISR_ERRCODE   10
-ISR_ERRCODE   11
-ISR_ERRCODE   12
-ISR_ERRCODE   13
-ISR_ERRCODE   14
-ISR_NOERRCODE 15
-ISR_NOERRCODE 16
-ISR_NOERRCODE 17
-ISR_NOERRCODE 18
-ISR_NOERRCODE 19
-ISR_NOERRCODE 20
-ISR_NOERRCODE 21
-ISR_NOERRCODE 22
-ISR_NOERRCODE 23
-ISR_NOERRCODE 24
-ISR_NOERRCODE 25
-ISR_NOERRCODE 26
-ISR_NOERRCODE 27
-ISR_NOERRCODE 28
-ISR_NOERRCODE 29
-ISR_NOERRCODE 30
-ISR_NOERRCODE 31
+; Add the IRQ definitions
+ISR_WITH_NO_ERRORCODE 0
+ISR_WITH_NO_ERRORCODE 1
+ISR_WITH_NO_ERRORCODE 2
+ISR_WITH_NO_ERRORCODE 3
+ISR_WITH_NO_ERRORCODE 4
+ISR_WITH_NO_ERRORCODE 5
+ISR_WITH_NO_ERRORCODE 6
+ISR_WITH_NO_ERRORCODE 7
+ISR_WITH_ERRORCODE    8
+ISR_WITH_NO_ERRORCODE 9
+ISR_WITH_ERRORCODE    10
+ISR_WITH_ERRORCODE    11
+ISR_WITH_ERRORCODE    12
+ISR_WITH_ERRORCODE    13
+ISR_WITH_ERRORCODE    14
+ISR_WITH_NO_ERRORCODE 15
+ISR_WITH_NO_ERRORCODE 16
+ISR_WITH_ERRORCODE    17
+ISR_WITH_NO_ERRORCODE 18
+ISR_WITH_NO_ERRORCODE 19
+ISR_WITH_NO_ERRORCODE 20
+ISR_WITH_NO_ERRORCODE 21
+ISR_WITH_NO_ERRORCODE 22
+ISR_WITH_NO_ERRORCODE 23
+ISR_WITH_NO_ERRORCODE 24
+ISR_WITH_NO_ERRORCODE 25
+ISR_WITH_NO_ERRORCODE 26
+ISR_WITH_NO_ERRORCODE 27
+ISR_WITH_NO_ERRORCODE 28
+ISR_WITH_NO_ERRORCODE 29
+ISR_WITH_ERRORCODE    30
+ISR_WITH_NO_ERRORCODE 31
