@@ -15,6 +15,7 @@ if [ "$boot_result" = "0" ] && [ "$make_result" = "0" ]
 then
     cp bootloader/boot ./os.img
     cat kernel/kernel >> os.img
+    dd if=/dev/zero bs=1 count=512 >> os.img
 
     fsize=$(wc -c < os.img)
     sectors=$(( $fsize / 512 ))
