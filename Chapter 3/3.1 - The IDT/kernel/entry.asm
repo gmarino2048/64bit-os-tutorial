@@ -1,8 +1,9 @@
 [bits 64]
 [extern main]
 
-section .text
 global _start
+
+section .startup
 _start:
     call main
     jmp $

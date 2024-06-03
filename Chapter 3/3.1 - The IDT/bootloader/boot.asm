@@ -132,7 +132,7 @@ jmp $
 %include "long_mode/clear.asm"
 %include "long_mode/print.asm"
 
-kernel_start:                   equ 0x8BE0              ; Kernel is at 1MB
+kernel_start:                   equ 0x8200              ; Kernel is at 1MB
 long_mode_note:                 db `Now running in fully-enabled, 64-bit long mode!`, 0
 style_blue:                     equ 0x1F
 

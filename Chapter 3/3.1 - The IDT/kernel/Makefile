@@ -13,7 +13,7 @@ ASM_SRC = $(shell find . -type f -name "*.asm")
 OBJ = ${ASM_SRC:.asm=.o} ${SRC:.c=.o} 
 
 CCFLAGS = -Iinc -ggdb -c -ffreestanding -target x86_64-none-elf
-LDFLAGS = -Ttext 0x8200
+LDFLAGS = -T kernel.ld
 LDFLAGS_BIN = ${LDFLAGS} --oformat binary
 ASFLAGS = -f elf64
 
