@@ -47,6 +47,12 @@ Each entry in the 64-bit IDT follows the following convention:
 
 ### Notifying the CPU of the Current IDT
 
+Once the IDT has been configured with the Interrupt Service Routines, we will need to notify the CPU that the IDT is
+configured and where in memory it exists.
+This is done by using the LIDT command, which sets the memory address of the IDT register.
+The IDT register contains two 64-bit values: the Base Address of the IDT and the uppermost address of the IDT.
+Be sure to use LIDT with the *address* of the IDT register, and not its value.
+
 ## Building
 
 There is a package that we need to ensure is downloaded onto our computer in order for this to run.
