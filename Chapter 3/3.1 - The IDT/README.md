@@ -1,25 +1,56 @@
-# Interrupt
-An interrupt is generated from the CPU to signal the kernel of 
-external hardware state changes. Interrupts are then handled by 
-the interrupt handler, which is where the kernel takes action. 
+# Chapter 3.1: The IDT
 
-# The IDT
-The interrupt descriptor table, or IDT, is a table populated with 
-various types of interrupts indicated by an interrupt number. When 
-an interrupt is received, the kernel locates the appropriate 
-interrupt handler to execute according to the IDT. In our tutorial, 
-the interrupt types are listed in the file `cpu/isr.c` where we 
-include 32 types of interrupts with their corresponding exception 
-messages. 
+## What is an interrupt?
 
-# ISR
-An interrupt handler, formally an interrupt service routine (ISR), 
-is programmed to run when the kernel detects an interrupt. Each 
-interrupt type has its own defined interrupt routines. 
+An interrupt is a built-in hardware feature of many Modern CPUs which allows an external device to interrupt the
+processor's execution and perform some other task.
+Most of the "modern" features you may take for granted on today's computers are interrupt-driven.
+Most USB peripherals like keyboards and mice make use of interrupts to make typing and interacting with the display
+more fluid and responsive.
+Modern Operating Systems make use of interrupts driven by a timer circuit to perform task-switching and prevent the
+Operating System from freezing.
+
+Interrupts have existed for almost as long as the CPU itself, with even the earliest consumer processors allowing for
+one to two hardware interrupts.
+Modern processors have only expanded on this capability, expanding the number of interrupts available as well as
+allowing the User/Operating System to configure the behavior and driver for these interrupts.
+
+## The IDT
+
+The modern x64 computer allows for 256 hardware interrupts, with the first 32 of those being reserved for use by the
+processor itself.
+I'll include an appendix with a list of these interrupts at the end of this section.
+The behavior of each of these interrupts is controlled by a processor structure known as the Interrupt Descriptor
+Table (IDT).
+Each entry in the IDT points to the memory address of an Interrupt Service Routine (ISR).
+The Interrupt Service Routine is just a method which will be called once the interrupt is triggered.
+
+> [!WARNING]
+> The CPU registers are not saved automatically during an ISR, and are left in the same state as they were when the
+> interrupt occurred. To avoid interfering with program operation, these registers will need to be restored before
+> returning from the interrupt context.
+
+In this chapter, we will configure the layout of the IDT, and configure the table to handle the 32 reserved System
+Interrupts.
+
+### IDT Entries
+
+Each entry in the 64-bit IDT follows the following convention:
+
+* Low Address of ISR (16 bits): Bits 0-15 of the ISR address
+* Code Segment Selector (16 bits): With Virtual Memory and Paging enabled, use the Code Segment from the existing GDT
+* Zero (8 bits): Must always be zero
+* Attributes (8 bits): Configuration for the listed ISR. Refer to `idt.h` for more details.
+* Middle Address of ISR (16 bits): Bits 16-31 of the ISR address
+* High Address of ISR (32 bits): Bits 32-63 of the 64-bit ISR address
+* Reserved (32 bits): Reserved for system use. Must always be initialized to 0.
+
+### Notifying the CPU of the Current IDT
 
 ## Building
 
-There is a package that we need to ensure is downloaded onto our computer in order for this to run. This can be installed with homebrew, or any other homebrew like package. Run the following command to install `llvm`:
+There is a package that we need to ensure is downloaded onto our computer in order for this to run.
+This can be installed with homebrew, or any other homebrew like package. Run the following command to install `llvm`:
 
 ```
 brew install llvm
