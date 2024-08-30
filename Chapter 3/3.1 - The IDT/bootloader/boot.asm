@@ -7,7 +7,15 @@
 ; Set Program Origin
 [org 0x7C00]
 
+; Skip the data below
+jmp begin_real
+
+; Kernel Size
+kernel_size db 0
+
 ; 16-bit Mode
+begin_real:
+
 [bits 16]
 
 ; Initialize the base pointer and the stack pointer
@@ -31,8 +39,11 @@ call print_bios
 ; of the drive. Note: Only bl will be used
 mov bx, 0x0002
 
-; Now we want to load 16 sectors for the bootloader and kernel
-mov cx, 0x0010
+; Now we want to load sectors for the bootloader and kernel.
+; The number of sectors needed by kernel is stored in kernel_size,
+; and we need two more sectors for the bootloader.
+mov cx, [kernel_size]
+add cx, 2
 
 ; Finally, we want to store the new sector immediately after the first
 ; loaded sector, at adress 0x7E00. This will help a lot with jumping between
