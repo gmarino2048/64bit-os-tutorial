@@ -20,6 +20,7 @@ RUN apt -y install \
     llvm \
     nasm \
     qemu-system \
+    xxd \
     zsh
 
 ENTRYPOINT [ "zsh" ]
